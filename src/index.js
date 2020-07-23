@@ -10,46 +10,63 @@ class StatusList extends React.Component {
     render() {
         return (
             <div className="State">
-                <div className={this.props.status===0?'active':''} onClick={()=>this.props.onClick(0)}>全部</div>
-                <div className={this.props.status===1?'active':''} onClick={()=>this.props.onClick(1)}>已完成</div>
-                <div className={this.props.status===2?'active':''} onClick={()=>this.props.onClick(2)}>未完成</div>
+                <div className={this.props.status === 0 ? 'active' : ''} onClick={() => this.props.onClick(0)}>全部</div>
+                <div className={this.props.status === 1 ? 'active' : ''} onClick={() => this.props.onClick(1)}>已完成</div>
+                <div className={this.props.status === 2 ? 'active' : ''} onClick={() => this.props.onClick(2)}>未完成</div>
             </div>
         )
     }
 }
-// class ToDoItem extends React.Component{
-//     constructor(props){
-//         super(props);
-//     }
-//     render() {
-//         return (
-//             // <li className={t.state ? 'finished' : ''} onClick={() => this.props.onClick(i)} key={t.key}>{t.task}</li>
-//         )
-//     }
-// }
+class ToDoItem extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: this.props.item.state
+        }
+    }
+    render() {
+        const item = this.props.item;
+        return (
+            <li>
+                <label>
+                    <input 
+                        type="checkbox"
+                        checked={this.state.value}
+                        onChange={()=>this.props.changeItemState()}
+                    ></input>
+                    {item.task}
+                </label>
+                <div className="del" onClick={()=>this.props.delItem()}>-</div>
+            </li>
+        )
+    }
+}
 class ToDoList extends React.Component {
     constructor(props) {
         super(props);
     }
     render() {
         const list = this.props.list;
-        console.log(list)
         let listItems;
         switch (this.props.status) {
             case 0:
-                listItems = list.map((t, i) => {
-                    return (
-                    <li className={t.state ? 'finished' : ''} onClick={() => this.props.onClick(i)} key={t.key}>{t.task}</li>
-                    )}
-                    
-                );
+                listItems = list.map((t, i) => 
+                    <ToDoItem
+                        changeItemState={()=>this.props.changeState(i)}
+                        key={t.key}
+                        item={t}
+                        delItem={()=>this.props.delItem(i)}
+                     />);
                 break;
             case 1:
-                listItems = list.map((t, i) =>{
+                listItems = list.map((t, i) => {
                     if (t.state) {
-                        return (
-                            <li onClick={() => this.props.onClick(i)} key={t.key}>{t.task}</li>
-                        )
+                        return <ToDoItem
+                        changeItemState={()=>this.props.changeState(i)}
+                        key={t.key}
+                        item={t}
+                        delItem={()=>this.props.delItem(i)}
+                     />;
                     }
                 }
                 );
@@ -57,9 +74,12 @@ class ToDoList extends React.Component {
             case 2:
                 listItems = list.map((t, i) => {
                     if (!t.state) {
-                        return (
-                            <li onClick={() => this.props.onClick(i)} key={t.key}>{t.task}</li>
-                        )
+                        return <ToDoItem
+                        changeItemState={()=>this.props.changeState(i)}
+                        key={t.key}
+                        item={t}
+                        delItem={()=>this.props.delItem(i)}
+                     />;
                     }
                 }
                 );
@@ -68,7 +88,7 @@ class ToDoList extends React.Component {
                 break;
         }
         return (
-            <ul>{listItems}</ul>
+            <ul className="listItems">{listItems}</ul>
         )
     }
 }
@@ -88,7 +108,8 @@ class App extends React.Component {
         this.setState({ task: e.target.value })
     }
     addTask() {
-        const { task, data } = this.state;
+        let { task, data } = this.state;
+        task = task.replace(/^\s+/g, "").replace(/\s+$/g, "")
         if (!task) return;
         this.setState({ data: [...data, { task: task, key: new Date().getTime() }] });
         this.setState({ task: "" });
@@ -99,6 +120,11 @@ class App extends React.Component {
         data[e].state = !data[e].state;
         this.setState({ data: data })
     }
+    delItem(i){
+        let { data } = this.state;
+        data.splice(i,1)
+        this.setState({data: data})
+    }
     changeStatus(i) {
         this.setState({ status: i })
     }
@@ -106,13 +132,20 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <StatusList status={this.state.status} onClick={i => this.changeStatus(i)} />
-                <div className="list">
-                    <label>
-                        <input type="text" value={this.state.task} onChange={this.changeValue.bind(this)}></input>
-                        <button type="button" onClick={() => this.addTask()}>+</button>
-                    </label>
-                    <ToDoList list={this.state.data} onClick={e => this.changeItemState(e)} status={this.state.status} />
+                <div className="menu"><div className="TaskName">React 清单</div></div>
+                <div className="main">
+                    <StatusList status={this.state.status} onClick={i => this.changeStatus(i)} />
+                    <div className="list">
+                        <label>
+                            <input type="text" value={this.state.task} onChange={this.changeValue.bind(this)} placeholder="添加任务"></input>
+                            <button type="button" onClick={() => this.addTask()}>+</button>
+                        </label>
+                        <ToDoList 
+                            list={this.state.data} 
+                            changeState={i=>this.changeItemState(i)} 
+                            delItem={i=>this.delItem(i)}
+                            status={this.state.status} />
+                    </div>
                 </div>
             </div>
         );

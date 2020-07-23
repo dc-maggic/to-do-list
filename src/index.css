@@ -4,21 +4,44 @@
 }
 .App{
   margin: 20px auto;
-  width: 300px;
-  border: 1px solid #ddd;
+  width: 600px;
+  border: 1px solid #eee;
+  display: flex;
+  border-radius: 2px;
 }
-.App>.State{
+.App>.menu{
+  width:150px;
+}
+.App >.menu> .TaskName {
+  margin:5px;
+  padding:5px;
+  padding-left: 25px;
+  border-radius: 2px;
+  color: rgb(99,99,101);
+  box-shadow: 2px 2px 5px #ddd;
+  cursor: pointer;
+  background-image: url("./images/tag.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.App>.main{
+  flex:1;
+  background-color: rgb(252,235,206);
+  color: #fff;
+}
+.App>.main>.State{
   display: flex;
   justify-content: space-around;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #fff;
+  padding:5px;
 }
-.App>.State>div{
+.App>.main>.State>div{
   margin: 5px 10px;
   text-align: center;
   color: orange;
   cursor: pointer;
 }
-.App>.State>div.active::after{
+.App>.main>.State>div.active::after{
   content:" ";
   padding-left: 30px;
   padding-top: 25px;
@@ -28,19 +51,38 @@
   background-size: contain;
   background-position: right;
 }
-.App > .list label{
-  border: 1px solid #ddd;
-  width: 100%;
-  display: block;
+.App >.main> .list{
+  margin: 10px;
+  height: 300px;
 }
-.App > .list input, .App > .list button{
+.App >.main> .list >label{
+  border-radius: 2px;
+  display: block;
+  background-color: #FF8C00;
+  font-size: 16px;
+  padding: 5px;
+}
+.App >.main> .list >label>input, .App > .main > .list >label> button{
   border: none;
   cursor: pointer;
   background-color: transparent;
   margin: 5px;
+  color: #fff;
 }
-.App > .list input{
-  width: calc(100% - 30px);
+.App >.main> .list >label >input{
+  width: calc(100% - 40px);
+}
+.App >.main> .list input::input-placeholder{
+  color: #fff;
+}
+.App >.main> .list input::-webkit-input-placeholder{
+  color: #fff;
+}
+.App >.main> .list input::-moz-placeholder{
+  color: #fff;
+}
+.App >.main> .list input::-ms-placeholder{
+  color: #fff;
 }
 input:focus, button:focus{
   outline-offset: 0;
@@ -49,18 +91,28 @@ input:focus, button:focus{
 button:active{
   color: orange;
 }
-.list{
-  margin: 10px;
-  height: 300px;
-}
-.list >ul{
+.App >.main> .list >ul{
   margin-top: 10px;
   list-style: none;
 }
-.list >ul >li{
+.listItems > li{
   overflow-wrap: break-word;
   cursor: pointer;
+  background-color: #fff;
+  border-radius: 2px;
+  color: rgb(99,99,101);
+  margin-bottom: 1px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
 }
-.finished{
-  text-decoration: line-through;
+.listItems >li>label>input{
+  margin-right: 5px;
+}
+.listItems > li >.del{
+  color: orange;
+}
+input[type="checkbox" i]{
+  background-color: orange;
+  border: 1px solid #d9d9d9
 }
