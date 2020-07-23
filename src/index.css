@@ -1,10 +1,9 @@
 *{
   margin: 0;
   padding: 0;
+  font-family: Arial,Helvetica,sans-serif;
 }
 .App{
-  margin: 20px auto;
-  width: 600px;
   border: 1px solid #eee;
   display: flex;
   border-radius: 2px;
@@ -23,6 +22,9 @@
   background-image: url("./images/tag.png");
   background-size: contain;
   background-repeat: no-repeat;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .App>.main{
   flex:1;
@@ -53,7 +55,7 @@
 }
 .App >.main> .list{
   margin: 10px;
-  height: 300px;
+  height: calc(100vh - 60px);
 }
 .App >.main> .list >label{
   border-radius: 2px;
@@ -96,15 +98,23 @@ button:active{
   list-style: none;
 }
 .listItems > li{
-  overflow-wrap: break-word;
   cursor: pointer;
   background-color: #fff;
   border-radius: 2px;
   color: rgb(99,99,101);
   margin-bottom: 1px;
-  padding: 5px;
+  padding: 10px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+}
+.listItems>li>label{
+  display: flex;
+  align-items: center;
+}
+.listItems>li>label>div{
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .listItems >li>label>input{
   margin-right: 5px;
@@ -113,6 +123,6 @@ button:active{
   color: orange;
 }
 input[type="checkbox" i]{
-  background-color: orange;
+  background-color: transparent;
   border: 1px solid #d9d9d9
 }

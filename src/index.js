@@ -34,7 +34,7 @@ class ToDoItem extends React.Component {
                         checked={this.state.value}
                         onChange={()=>this.props.changeItemState()}
                     ></input>
-                    {item.task}
+                    <div>{item.task}</div>
                 </label>
                 <div className="del" onClick={()=>this.props.delItem()}>-</div>
             </li>
