@@ -9,7 +9,7 @@ class StatusList extends React.Component {
     }
     render() {
         return (
-            <div className="State">
+            <div className="task__status">
                 <div className={this.props.status === 0 ? 'active' : ''} onClick={() => this.props.onClick(0)}>全部</div>
                 <div className={this.props.status === 1 ? 'active' : ''} onClick={() => this.props.onClick(1)}>已完成</div>
                 <div className={this.props.status === 2 ? 'active' : ''} onClick={() => this.props.onClick(2)}>未完成</div>
@@ -25,18 +25,18 @@ class ToDoItem extends React.Component {
         }
     }
     render() {
-        const item = this.props.item;
+        const {item, changeItemState, delItem} = this.props;
         return (
             <li>
                 <label>
                     <input 
                         type="checkbox"
-                        checked={this.state.value}
-                        onChange={()=>this.props.changeItemState()}
+                        checked={item.state}
+                        onChange={()=>changeItemState()}
                     ></input>
                     <div>{item.task}</div>
                 </label>
-                <div className="del" onClick={()=>this.props.delItem()}>-</div>
+                <div className="del" onClick={()=>delItem()}>-</div>
             </li>
         )
     }
@@ -97,8 +97,6 @@ class App extends React.Component {
         super(props);
         this.state = {
             data: [
-                { task: '学习 React', key: 1595399149270 },
-                { task: '学习 hock', key: 1595399159630 }
             ],
             task: "",
             status: 0
@@ -111,11 +109,11 @@ class App extends React.Component {
         let { task, data } = this.state;
         task = task.replace(/^\s+/g, "").replace(/\s+$/g, "")
         if (!task) return;
-        this.setState({ data: [...data, { task: task, key: new Date().getTime() }] });
+        this.setState({ data: [...data, { task: task, key: new Date().getTime(), state:false }] });
         this.setState({ task: "" });
         this.setState({ status: 0 })
     }
-    changeItemState(e) {
+    changeItemStatus(e) {
         const { data } = this.state;
         data[e].state = !data[e].state;
         this.setState({ data: data })
@@ -131,8 +129,8 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className="App">
-                <div className="menu"><div className="TaskName">React 清单</div></div>
+            <div className="app">
+                <div className="menu"><div className="menu__task">任务清单</div></div>
                 <div className="main">
                     <StatusList status={this.state.status} onClick={i => this.changeStatus(i)} />
                     <div className="list">
@@ -142,7 +140,7 @@ class App extends React.Component {
                         </label>
                         <ToDoList 
                             list={this.state.data} 
-                            changeState={i=>this.changeItemState(i)} 
+                            changeState={i=>this.changeItemStatus(i)} 
                             delItem={i=>this.delItem(i)}
                             status={this.state.status} />
                     </div>
