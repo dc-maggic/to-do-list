@@ -1,41 +1,31 @@
 import React from 'react';
-import {toggleTodo, delTodo} from "../../store/actions"
-const { connect } = require("react-redux");
+import PropTypes from 'prop-types'
 
-class todoItem extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        const {item, changeItemState, delItem} = this.props;
-        return (
-            <li key={item.id}>
-                <label>
-                    <input 
-                        type="checkbox"
-                        checked={item.completed}
-                        onChange={changeItemState}
-                    ></input>
-                    <div>{item.text}</div>
-                </label>
-                <div className="del" onClick={delItem}>-</div>
-            </li>
-        )
-    }
-}
 /**
- * 将需要绑定的响应事件注入到组件上（props上）
- * @param {dispatch}  dispatch() 方法
- *  @param {ownProps}   组件本身的props
+ * 任务列表
+ * @param {item} 任务对象
+ * @param {changeItemState} 修改任务状态
+ * @param {delItem} 删除任务
  */
-const mapDispatchToProps = (dispatch, ownProps) => {
-    const { item } = ownProps;
-    const id = item.id;
-    return {
-        changeItemState: () => dispatch(toggleTodo(id)),
-        delItem: () => dispatch(delTodo(id))
-    }
+const todoItem = function ({ item, changeItemState, delItem }) {
+    return (
+        <li key={item.id}>
+            <label>
+                <input
+                    type="checkbox"
+                    checked={item.completed}
+                    onChange={changeItemState}
+                ></input>
+                <div>{item.text}</div>
+            </label>
+            <div className="del" onClick={delItem}>-</div>
+        </li>
+    )
+}
+todoItem.propTypes = {
+    item: PropTypes.object.isRequired,
+    changeItemState: PropTypes.func.isRequired,
+    delItem: PropTypes.func.isRequired
+}
 
-};
-
-export default connect(null, mapDispatchToProps)(todoItem)
+export default todoItem;

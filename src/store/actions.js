@@ -14,9 +14,8 @@ export const VisibilityFilters = {
 }
 
 /*
- * action 创建函数
+ * 添加任务
  */
-
 export function addTodo(text) {
   return { 
     type: ADD_TODO, 
@@ -25,14 +24,23 @@ export function addTodo(text) {
   }
 }
 
+/*
+ * 改变任务状态
+ */
 export function toggleTodo(index) {
   return { type: TOGGLE_TODO, index }
 }
 
+/*
+ * 删除任务
+ */
 export function delTodo(id){
     return { type: DEL_TODO, id}
 }
 
+/*
+ * 切换清单状态
+ */
 export function setVisibilityFilter(filter) {
   return { type: SET_VISIBILITY_FILTER, filter }
 }

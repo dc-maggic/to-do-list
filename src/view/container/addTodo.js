@@ -1,15 +1,18 @@
 import React from 'react';
-import { addTodo } from '../../store/actions'
-const { connect } = require("react-redux");
+import { addTodo, setVisibilityFilter, VisibilityFilters } from '../../store/actions';
+import PropTypes from 'prop-types';
+
+const { connect } = require("react-redux"),
+    { SHOW_ALL } = VisibilityFilters;
 
 class addTodoItem extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state ={
+        this.state = {
             task: ""
         }
     }
-    changeValue(e){
+    changeValue(e) {
         this.setState({ task: e.target.value })
     }
     onAdd() {
@@ -17,6 +20,7 @@ class addTodoItem extends React.Component {
         task = task.replace(/^\s+/g, "").replace(/\s+$/g, "")
         if (!task) return;
         this.props.addTask(task);
+        this.props.changeStatus(SHOW_ALL);
         this.setState({ task: "" })
     }
     render() {
@@ -28,11 +32,15 @@ class addTodoItem extends React.Component {
         )
     }
 }
+addTodoItem.propTypes = {
+    addTask: PropTypes.func.isRequired,
+    changeStatus: PropTypes.func.isRequired
+}
 const mapDispatchToProps = (dispatch) => {
     return {
         addTask: text => dispatch(addTodo(text)),
+        changeStatus: filter => dispatch(setVisibilityFilter(filter))
     }
-
 };
 
 export default connect(null, mapDispatchToProps)(addTodoItem)

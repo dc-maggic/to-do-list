@@ -1,13 +1,13 @@
 import React from 'react';
-import Link from './link';
+import FilterLink from '../container/filterLink';
 
 class nav extends React.Component {
     render() {
         return (
             <div className="task__status">
-                <Link filter="SHOW_ALL">全部</Link>
-                <Link filter="SHOW_COMPLETED">已完成</Link>
-                <Link filter="SHOW_ACTIVE">未完成</Link>
+                <FilterLink filter="SHOW_ALL">全部</FilterLink>
+                <FilterLink filter="SHOW_COMPLETED">已完成</FilterLink>
+                <FilterLink filter="SHOW_ACTIVE">未完成</FilterLink>
             </div>
         )
     }

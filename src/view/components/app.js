@@ -1,7 +1,7 @@
 import React from 'react'
-import Nav from '../components/nav'
-import AddTodo from '../components/addTodo'
-import ToDoList from '../components/todoList'
+import Nav from './nav'
+import AddTodo from '../container/addTodo'
+import VisibleToDoList from '../container/visibleTodoList'
 
 const App = () => (
     <div className="app">
@@ -10,7 +10,7 @@ const App = () => (
             <Nav />
             <div className="list">
                 <AddTodo />
-                <ToDoList />
+                <VisibleToDoList />
             </div>
         </div>
     </div>
