@@ -20,8 +20,10 @@ fetch( "https://i.news.qq.com/trpc.qqnews_web.pc_base_srv.base_http_proxy/NinjaP
     .catch(e => { console.log(e) })
 let store = createStore(reducers, applyMiddleware(...middleware))
 ReactDOM.render(
-    <Provider store={store}><App />
-        <Infor /></Provider>
+    <Provider store={store}>
+        <App />
+        <Infor />
+    </Provider>
     ,
     document.getElementById('root')
 );

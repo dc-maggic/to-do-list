@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { selectSubreddit, fetchPostsIfNeeded, invalidateSubreddit } from '../../store/actions'
-import Picker from '../components/picker'
+import Picker from '../components/picker.tsx'
 import Posts from '../components/post'
 
 class Infor extends Component {
@@ -39,7 +39,7 @@ class Infor extends Component {
         return (
             <div className="infor">
                 <Picker value={selectedSubreddit}
-                    onChange={this.handleChange}
+                    onPickerChange={this.handleChange}
                     options={['today_topic_2018', 'news_top_2018']} />
                 <p className="last__updated">
                     {lastUpdated &&
